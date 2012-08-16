@@ -50,8 +50,8 @@
 #define DEVICE_MODEL    0x00, 0x00
 // Should be the date of this firmware release, in hex, in the following format: 0xYYYYMMDD
 #define DEVICE_VERSION_YEAR 	0x2012
-#define DEVICE_VERSION_MONTH	0x07
-#define DEVICE_VERSION_DAY		0x09
+#define DEVICE_VERSION_MONTH	0x08
+#define DEVICE_VERSION_DAY		0x16
 #define DEVICE_VERSION  		((DEVICE_VERSION_YEAR << 16) | (DEVICE_VERSION_MONTH << 8) | DEVICE_VERSION_DAY)
 
 #define EEPROM_VERSION  5  // Increment this when the eeprom layout requires

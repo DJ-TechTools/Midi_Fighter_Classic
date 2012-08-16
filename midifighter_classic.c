@@ -774,7 +774,7 @@ void Midifighter_Task(void)
             uint8_t note = midi_fourbanks_key_to_note(i + keyoffset);
 			if (g_device_mode == ABLETON)
 			{
-				midi_stream_cc(note,127);
+				midi_stream_raw_cc(g_midi_channel+1,note,127);
      		}
 			midi_stream_note(note, true);
 
@@ -787,7 +787,7 @@ void Midifighter_Task(void)
             midi_stream_note(note, false);
 			if (g_device_mode == ABLETON)
 			{
-				midi_stream_cc(note,0);			
+				midi_stream_raw_cc(g_midi_channel+1,note,0);			
 			}			
         }
         physical_keydown >>= 1;

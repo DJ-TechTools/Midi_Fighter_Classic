@@ -54,12 +54,17 @@ extern uint8_t g_midi_note_state[MIDI_MAX_NOTES];
 // MIDI function prototypes ----------------------------------------------------
 
 void midi_setup(void);
+void midi_stream_note_ch(const uint8_t channel, const uint8_t note, const bool onoff);
 void midi_stream_note(const uint8_t pitch, const bool onoff);
 void midi_stream_cc(const uint8_t controller, const uint8_t value);
 uint8_t midi_note_to_key(const uint8_t notenum);
 uint8_t midi_key_to_note(const uint8_t keynum);
 uint8_t midi_fourbanks_key_to_note(const uint8_t keynum);
 uint8_t midi_fourbanks_note_to_key(const uint8_t note);
+
+void midi_stream_raw_cc(const uint8_t channel,
+						const uint8_t cc,
+						const uint8_t value);
 
 void midi_stream_sysex (const uint8_t length, uint8_t* data);
 void midi_flush(void);

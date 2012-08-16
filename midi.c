@@ -147,6 +147,41 @@ void midi_stream_cc(const uint8_t controller, const uint8_t value)
     MIDI_Device_SendEventPacket(g_midi_interface_info, &midi_event);
 }
 
+// Used to send a note on a specific channel
+void midi_stream_note_ch(const uint8_t channel,
+						 const uint8_t pitch,
+						 const bool onoff)
+
+{
+	// Check if the message should be a NoteOn or NoteOff event.
+	uint8_t command = ((onoff)? 0x90 : 0x80);
+
+	// Assemble a USB-MIDI event packet, remembering to mask off the values
+	// to the correct bit fields.
+	MIDI_EventPacket_t midi_event;
+	midi_event.CableNumber = 0x0;  // USB-MIDI virtual cable (0..15)
+	midi_event.Command     = command >> 4;   // 0..15
+	midi_event.Data1       = command | (channel & 0x0f);  // 0..15
+	midi_event.Data2       = pitch & 0x7f;   // 0..127
+	midi_event.Data3       = g_midi_velocity & 0x7f; // 0..127
+
+	MIDI_Device_SendEventPacket(g_midi_interface_info, &midi_event);
+}
+
+void midi_stream_raw_cc(const uint8_t channel,
+						const uint8_t cc,
+						const uint8_t value)
+{
+	const uint8_t command = 0xb0;  // the Channel Change command.
+	MIDI_EventPacket_t midi_event;
+	midi_event.CableNumber = 0x0;  // USB-MIDI virtual cable (0..15)
+	midi_event.Command     = command >> 4;
+	midi_event.Data1       = command | (channel & 0x0f); // 0..15
+	midi_event.Data2       = cc & 0x7f;   // 0..127
+	midi_event.Data3       = value & 0x7f;  // 0..127
+	MIDI_Device_SendEventPacket(g_midi_interface_info, &midi_event);
+}
+
 void midi_stream_sysex (const uint8_t length, uint8_t* data)
 {
     //  Assign this MIDI event to cable 0.
